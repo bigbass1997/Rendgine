@@ -4,6 +4,7 @@ import com.lukestadem.rendgine.graphics.opengl.ShaderProgram;
 import com.lukestadem.rendgine.graphics.opengl.VertexArrayObject;
 import com.lukestadem.rendgine.graphics.opengl.VertexAttributes;
 import com.lukestadem.rendgine.util.Disposable;
+import org.joml.Matrix4f;
 
 public class Mesh implements Disposable {
 	
@@ -48,34 +49,24 @@ public class Mesh implements Disposable {
 	}
 	
 	/**
-	 * A {@link ShaderProgram} must be bound before calling this method!
-	 * See {@link #render(ShaderProgram, int)} for more details.
-	 *
-	 * @param primitive OpenGL render primitive type GL_*
-	 */
-	public void render(int primitive){
-		render(null, primitive);
-	}
-	
-	/**
-	 * Renders this mesh. If {@code shader} is null, this method assumes that the
-	 * shader will be managed externally (bound and unbound as necessary). Doing
+	 * Renders this mesh. If {@code bindExternally} is true, . Doing
 	 * this can be useful when using multiple meshes or using the shader for other
 	 * operations, in order to reduce multiple bind/unbind cycles.
 	 *
 	 * @param shader shader to be bound/unbound, can be null
 	 * @param primitive OpenGL render primitive type GL_*
 	 */
-	public void render(ShaderProgram shader, int primitive){
-		if(shader != null){
+	public void render(ShaderProgram shader, boolean bindExternally, int primitive, Matrix4f projModelView){
+		if(!bindExternally){
 			shader.bind();
 		}
 		
 		vao.bind();
+		shader.setUniform("projModelView", projModelView);
 		vao.render(primitive);
 		vao.unbind();
 		
-		if(shader != null){
+		if(!bindExternally){
 			shader.unbind();
 		}
 	}

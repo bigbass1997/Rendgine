@@ -4,6 +4,7 @@ import com.lukestadem.rendgine.graphics.opengl.ShaderProgram;
 import com.lukestadem.rendgine.graphics.opengl.VertexAttributes.Usage;
 import com.lukestadem.rendgine.util.Disposable;
 import com.lukestadem.rendgine.util.Utils;
+import org.joml.Matrix4f;
 
 import java.util.Arrays;
 
@@ -41,12 +42,18 @@ public class ModernImmediateRenderer implements Disposable {
 		resetColorFlag = false;
 	}
 	
-	public void render(){
+	public void render(Camera cam){
+		render(cam.combined);
+	}
+	
+	public void render(Matrix4f combined){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		mesh.render(shaderProgram, GL_TRIANGLES);
+		mesh.render(shaderProgram, false, GL_TRIANGLES, combined);
+		
+		glDisable(GL_BLEND);
 	}
 	
 	public ModernImmediateRenderer color(int colorPack){
@@ -103,7 +110,6 @@ public class ModernImmediateRenderer implements Disposable {
 		nextVertex[1] = y;
 		nextVertex[2] = z;
 		mesh.addVertex(nextVertex);
-		//System.out.println(Arrays.toString(nextVertex));
 		
 		if(!resetColorFlag && mesh.hasUsage(Usage.COLORS)){
 			test();
