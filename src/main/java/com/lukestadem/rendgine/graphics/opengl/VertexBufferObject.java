@@ -1,6 +1,7 @@
 package com.lukestadem.rendgine.graphics.opengl;
 
 import com.lukestadem.rendgine.util.Disposable;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 
@@ -97,6 +98,7 @@ public class VertexBufferObject implements Disposable {
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, dataToInt(), GL_DYNAMIC_DRAW);
 			} else {
 				glBufferData(GL_ARRAY_BUFFER, data, GL_DYNAMIC_DRAW);
+				//glBufferData(GL_ARRAY_BUFFER, ArrayUtils.subarray(data, 0, offset), GL_DYNAMIC_DRAW); // Increases RAM usage, but increases performance when the array is not being used to capacity.
 				glVertexAttribPointer(vboIndex, usage.getOffset(), GL_FLOAT, false, 0, 0);
 			}
 			

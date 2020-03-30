@@ -16,22 +16,24 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		final int width = 700;
-		final int height = 700;
+		final int width = 500;
+		final int height = 500;
 		final Engine engine = new Engine("Test Title", width, height, false, false);
 		final Camera cam = new Camera(width, height);
 		cam.position.set((width / 2), (height / 2), 0);
 		cam.update();
 		
-		final ModernImmediateRenderer2D mir = new ModernImmediateRenderer2D(3000000, 100000, true, false, false);
+		final int maxVertices = 300000;
+		final ModernImmediateRenderer2D mir = new ModernImmediateRenderer2D(maxVertices, 100000, true, false, false);
 		
-		final Random rand = new Random(59182495L);
+		final Random rand = new Random();
 		List<Particle> particles = new ArrayList<Particle>();
 		
 		engine.addRenderTask(p -> {
 			mir.clear();
 			
 			particles.forEach(part -> {
+				part.pos.add((rand.nextFloat() * 2) - 1, (rand.nextFloat() * 2) - 1);
 				part.render(mir);
 			});
 			
@@ -39,11 +41,13 @@ public class Main {
 		});
 		
 		engine.addUpdateTask(p -> {
-			final float INTERVAL = 0.01f;
+			final float INTERVAL = 0.0005f;
 			if(time > INTERVAL){
 				final int n = (int) (time / INTERVAL);
 				for(int i = 0; i < n; i++){
-					particles.add(new Particle((rand.nextFloat() * width), (rand.nextFloat() * height), 5, 5, Color.toIntPack(rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),1)));
+					if(particles.size() < maxVertices / 6){
+						particles.add(new Particle((rand.nextFloat() * width), (rand.nextFloat() * height), 4, 4, Color.toIntPack(rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),1)));
+					}
 				}
 				time = time % INTERVAL;
 			}
