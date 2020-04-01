@@ -11,6 +11,13 @@ project.ext.lwjglNatives = "natives-windows"
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://maven.pkg.github.com/bigbass1997/earcut4j" 
+		credentials {
+			username = ''
+			password = ''
+		}
+	}
 }
 
 dependencies {
@@ -38,6 +45,7 @@ dependencies {
 	
 	implementation 'org.apache.commons:commons-lang3:3.9'
 	implementation 'org.joml:joml:1.9.23'
+	implementation 'earcut4j:earcut4j:2.1.2'
 }
 
 mainClassName = 'com.lukestadem.rendgine.Main'
