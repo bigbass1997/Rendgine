@@ -3,10 +3,10 @@ package com.lukestadem.rendgine.graphics;
 import org.joml.*;
 import org.joml.Math;
 
-public class Camera {
+public abstract class Camera {
 	
-	private final Vector3f tmpVec;
-	private final Matrix3f tmpMat3;
+	protected final Vector3f tmpVec;
+	protected final Matrix3f tmpMat3;
 	
 	public final Vector3f position;
 	public final Vector3f direction;
@@ -16,21 +16,18 @@ public class Camera {
 	public final Matrix4f view;
 	public final Matrix4f combined;
 	
-	public float near;
-	public float far;
-	
-	public float viewportWidth;
-	public float viewportHeight;
+	protected float near;
+	protected float far;
 	
 	public Camera(){
-		this(0, 0);
+		this(0, 0, 0);
 	}
 	
-	public Camera(float viewportWidth, float viewportHeight){
+	public Camera(float camPosX, float camPosY, float camPosZ){
 		tmpVec = new Vector3f();
 		tmpMat3 = new Matrix3f();
 		
-		position = new Vector3f();
+		position = new Vector3f(camPosX, camPosY, camPosZ);
 		direction = new Vector3f(0, 0, -1);
 		up = new Vector3f(0, 1, 0);
 		
@@ -40,20 +37,9 @@ public class Camera {
 		
 		near = -1;
 		far = 1;
-		
-		this.viewportWidth = viewportWidth;
-		this.viewportHeight = viewportHeight;
-		
-		update();
 	}
 	
-	public Camera update(){
-		projection.setOrtho(-(viewportWidth / 2), (viewportWidth / 2), -(viewportHeight / 2), (viewportHeight / 2), near, far);
-		view.setLookAt(position, tmpVec.set(position).add(direction), up);
-		combined.set(projection).mul(view);
-		
-		return this;
-	}
+	public abstract Camera update();
 	
 	public Camera lookAt(Vector3f target){
 		return lookAt(target.x, target.y, target.z);
@@ -121,6 +107,16 @@ public class Camera {
 	public Camera translate(float x, float y, float z){
 		position.add(x, y, z);
 		
+		return this;
+	}
+	
+	public Camera setNear(float near){
+		this.near = near;
+		return this;
+	}
+	
+	public Camera setFar(float far){
+		this.far = far;
 		return this;
 	}
 }

@@ -3,6 +3,7 @@ package com.lukestadem.rendgine;
 import com.lukestadem.rendgine.graphics.Camera;
 import com.lukestadem.rendgine.graphics.Color;
 import com.lukestadem.rendgine.graphics.ModernImmediateRenderer2D;
+import com.lukestadem.rendgine.graphics.OrthographicCamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,7 @@ public class Main {
 		final int width = 500;
 		final int height = 500;
 		final Engine engine = new Engine("Test Title", width, height, false, false);
-		final Camera cam = new Camera(width, height);
-		cam.position.set((width / 2), (height / 2), 0);
-		cam.update();
+		final Camera cam = new OrthographicCamera(width, height, (width / 2), (height / 2), 0);
 		
 		final int maxVertices = 300000;
 		final ModernImmediateRenderer2D mir = new ModernImmediateRenderer2D(maxVertices, 100000, true, false, false);
@@ -36,6 +35,9 @@ public class Main {
 				part.pos.add((rand.nextFloat() * 2) - 1, (rand.nextFloat() * 2) - 1);
 				part.render(mir);
 			});
+			
+			mir.color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 1);
+			mir.polygonTriangulated(new float[]{100, 100, 100, 200, 200, 200, 200, 100, 150, 50, 155, 165});
 			
 			mir.render(cam.combined);
 		});
