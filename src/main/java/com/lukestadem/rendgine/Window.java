@@ -105,6 +105,10 @@ public class Window {
 		return height;
 	}
 	
+	public long getWindowIndex(){
+		return windowIndex;
+	}
+	
 	public boolean hasResized(){
 		return hasResized;
 	}

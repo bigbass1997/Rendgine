@@ -1,5 +1,11 @@
 package com.lukestadem.rendgine;
 
+import com.lukestadem.rendgine.graphics.camera.Camera;
+import com.lukestadem.rendgine.graphics.camera.OrthographicCamera;
+import com.lukestadem.rendgine.util.KeyCallbackBus;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWKeyCallbackI;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,11 +21,21 @@ public class Engine {
 	
 	private double delta;
 	
+	public Camera camera;
+	
 	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable){
+		this(title, width, height, vSync, isResizable, new OrthographicCamera(width, height, (width / 2), (height / 2), 0));
+	}
+	
+	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable, Camera camera){
 		window = new Window(title, width, height, vSync, isResizable);
 		
 		updateTasks = new ArrayList<Consumer<Engine>>();
 		renderTasks = new ArrayList<Consumer<Engine>>();
+		
+		this.camera = camera;
+		
+		GLFW.glfwSetKeyCallback(window.getWindowIndex(), KeyCallbackBus.getGlobalBus());
 	}
 	
 	public void start(){
@@ -76,6 +92,14 @@ public class Engine {
 	
 	public void addRenderTask(Consumer<Engine> task){
 		renderTasks.add(task);
+	}
+	
+	public void runDefaultCameraMovement(){
+		camera.defaultCameraMovement(this);
+	}
+	
+	public void addKeyCallback(GLFWKeyCallbackI callback){
+		KeyCallbackBus.getGlobalBus().add(callback);
 	}
 	
 	public Window getWindow(){

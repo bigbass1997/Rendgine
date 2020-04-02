@@ -1,4 +1,6 @@
-package com.lukestadem.rendgine.graphics;
+package com.lukestadem.rendgine.graphics.camera;
+
+import com.lukestadem.rendgine.Engine;
 
 public class PerspectiveCamera extends Camera {
 	
@@ -35,5 +37,10 @@ public class PerspectiveCamera extends Camera {
 		combined.set(projection).mul(view);
 		
 		return this;
+	}
+	
+	@Override
+	public void defaultCameraMovement(Engine engine){
+	
 	}
 }

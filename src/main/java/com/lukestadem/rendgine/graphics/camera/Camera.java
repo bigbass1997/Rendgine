@@ -1,7 +1,11 @@
-package com.lukestadem.rendgine.graphics;
+package com.lukestadem.rendgine.graphics.camera;
 
-import org.joml.*;
+import com.lukestadem.rendgine.Engine;
 import org.joml.Math;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public abstract class Camera {
 	
@@ -40,6 +44,8 @@ public abstract class Camera {
 	}
 	
 	public abstract Camera update();
+	
+	public abstract void defaultCameraMovement(Engine engine);
 	
 	public Camera lookAt(Vector3f target){
 		return lookAt(target.x, target.y, target.z);

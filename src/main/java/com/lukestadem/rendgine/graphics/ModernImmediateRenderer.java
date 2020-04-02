@@ -1,5 +1,6 @@
 package com.lukestadem.rendgine.graphics;
 
+import com.lukestadem.rendgine.graphics.camera.Camera;
 import com.lukestadem.rendgine.graphics.opengl.ShaderProgram;
 import com.lukestadem.rendgine.graphics.opengl.VertexAttributes.Usage;
 import com.lukestadem.rendgine.util.Disposable;
