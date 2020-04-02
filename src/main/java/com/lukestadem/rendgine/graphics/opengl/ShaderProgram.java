@@ -102,7 +102,7 @@ public class ShaderProgram {
             return createUniform(name);
         }
         
-        return -1;
+        return uniforms.get(name);
     }
     
     public void cleanup() {
