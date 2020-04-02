@@ -47,6 +47,11 @@ public abstract class Camera {
 	
 	public abstract void defaultCameraMovement(Engine engine);
 	
+	public boolean isInView(Vector3f point, float edgeBuffer){
+		return isInView(point.x, point.y, point.z, edgeBuffer);
+	}
+	public abstract boolean isInView(float x, float y, float z, float edgeBuffer);
+	
 	public Camera lookAt(Vector3f target){
 		return lookAt(target.x, target.y, target.z);
 	}

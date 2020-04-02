@@ -30,7 +30,10 @@ public class Main {
 			
 			particles.forEach(part -> {
 				part.pos.add((rand.nextFloat() * 2) - 1, (rand.nextFloat() * 2) - 1);
-				part.render(mir);
+				
+				if(p.camera.isInView(part.pos.x, part.pos.y, 0, 3)){
+					part.render(mir);
+				}
 			});
 			
 			//mir.color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 1);

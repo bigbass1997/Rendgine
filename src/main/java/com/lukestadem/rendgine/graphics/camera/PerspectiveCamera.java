@@ -1,6 +1,7 @@
 package com.lukestadem.rendgine.graphics.camera;
 
 import com.lukestadem.rendgine.Engine;
+import org.joml.Vector3f;
 
 public class PerspectiveCamera extends Camera {
 	
@@ -41,6 +42,11 @@ public class PerspectiveCamera extends Camera {
 	
 	@Override
 	public void defaultCameraMovement(Engine engine){
+		//TODO implement method
+	}
 	
+	@Override
+	public boolean isInView(float x, float y, float z, float edgeBuffer){
+		return true; //TODO implement method
 	}
 }

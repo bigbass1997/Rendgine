@@ -2,6 +2,7 @@ package com.lukestadem.rendgine.graphics.camera;
 
 import com.lukestadem.rendgine.Engine;
 import com.lukestadem.rendgine.util.Keyboard;
+import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -51,5 +52,15 @@ public class OrthographicCamera extends Camera {
 		if(camDirty){
 			update();
 		}
+	}
+	
+	@Override
+	public boolean isInView(float x, float y, float z, float edgeBuffer){
+		final float maxX = position.x + (viewportWidth / 2) + edgeBuffer;
+		final float minX = position.x - (viewportWidth / 2) - edgeBuffer;
+		final float maxY = position.y + (viewportHeight / 2) + edgeBuffer;
+		final float minY = position.y - (viewportHeight / 2) - edgeBuffer;
+		
+		return !(x > maxX || x < minX || y > maxY || y < minY);
 	}
 }
