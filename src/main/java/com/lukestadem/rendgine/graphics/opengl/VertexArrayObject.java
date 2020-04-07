@@ -9,7 +9,6 @@ public class VertexArrayObject implements Disposable {
 	
 	private final int name;
 	
-	private final VertexAttributes attribs;
 	private final VertexBufferObject[] vbos;
 	
 	private final VertexBufferObject vboIndices;
@@ -17,8 +16,6 @@ public class VertexArrayObject implements Disposable {
 	private boolean isBound;
 	
 	public VertexArrayObject(VertexAttributes attribs, int maxVertices, int maxIndices){
-		this.attribs = attribs;
-		
 		vbos = new VertexBufferObject[attribs.length()];
 		
 		name = glGenVertexArrays();
@@ -28,12 +25,12 @@ public class VertexArrayObject implements Disposable {
 		final Usage[] usageTypes = Usage.values();
 		for(Usage use : usageTypes){
 			if(attribs.hasUsage(use)){
-				vbos[vboIndex] = new VertexBufferObject(use, maxVertices, vboIndex);
+				vbos[vboIndex] = new VertexBufferObject(use, maxVertices);
 				vboIndex++;
 			}
 		}
 		
-		vboIndices = new VertexBufferObject(Usage.INDICES, maxIndices, vboIndex);
+		vboIndices = new VertexBufferObject(Usage.INDICES, maxIndices);
 		
 		isBound = false;
 	}

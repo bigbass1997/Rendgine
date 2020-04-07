@@ -1,5 +1,6 @@
 package com.lukestadem.rendgine.graphics.opengl;
 
+import com.lukestadem.rendgine.util.Disposable;
 import org.joml.Matrix4f;
 
 import java.util.HashMap;
@@ -7,7 +8,7 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL46.*;
 
-public class ShaderProgram {
+public class ShaderProgram implements Disposable {
 
     private final int programId;
 
@@ -16,6 +17,8 @@ public class ShaderProgram {
     private int fragmentShaderId;
     
     private final Map<String, Integer> uniforms;
+    
+    private boolean isLinked;
 
     public ShaderProgram() throws Exception {
         programId = glCreateProgram();
@@ -23,6 +26,8 @@ public class ShaderProgram {
             throw new Exception("Could not create Shader");
         }
         uniforms = new HashMap<>();
+        
+        isLinked = false;
     }
 
     public void createVertexShader(String shaderCode) throws Exception {
@@ -68,7 +73,8 @@ public class ShaderProgram {
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }
-
+        
+        isLinked = true;
     }
 
     public void bind() {
@@ -105,7 +111,12 @@ public class ShaderProgram {
         return uniforms.get(name);
     }
     
-    public void cleanup() {
+    public boolean isLinked(){
+        return isLinked;
+    }
+    
+    @Override
+    public void dispose() {
         unbind();
         if (programId != 0) {
             glDeleteProgram(programId);

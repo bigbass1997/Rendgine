@@ -28,8 +28,8 @@ public class ModernImmediateRenderer implements Disposable {
 	public ModernImmediateRenderer(int maxVertices, int maxIndices, boolean hasColors, boolean hasNormals, boolean hasTexCoords){
 		try {
 			shaderProgram = new ShaderProgram();
-			shaderProgram.createVertexShader(Utils.loadResource("/vertex.vs"));
-			shaderProgram.createFragmentShader(Utils.loadResource("/fragment.fs"));
+			shaderProgram.createVertexShader(Utils.loadResource("/shaders/immediate-vertex.glsl"));
+			shaderProgram.createFragmentShader(Utils.loadResource("/shaders/immediate-fragment.glsl"));
 			shaderProgram.link();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,7 +48,6 @@ public class ModernImmediateRenderer implements Disposable {
 	}
 	
 	public void render(Matrix4f combined){
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		

@@ -1,7 +1,6 @@
 package com.lukestadem.rendgine.graphics.opengl;
 
 import com.lukestadem.rendgine.util.Disposable;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 
@@ -20,9 +19,9 @@ public class VertexBufferObject implements Disposable {
 	
 	private boolean dirtyData;
 	
-	public VertexBufferObject(final VertexAttributes.Usage usage, final int maxVertices, final int vboIndex){
+	public VertexBufferObject(final VertexAttributes.Usage usage, final int maxVertices){
 		this.usage = usage;
-		this.vboIndex = vboIndex;
+		vboIndex = usage.getShaderPosition();
 		
 		name = glGenBuffers();
 		data = new float[maxVertices * usage.getOffset()];

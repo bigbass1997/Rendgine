@@ -5,12 +5,18 @@ import org.apache.commons.lang3.ArrayUtils;
 public class VertexAttributes {
 	
 	public enum Usage {
-		POSITIONS(3), COLORS(4), NORMALS(3), TEXCOORDS(2), INDICES(3);
+		POSITIONS(0, 3), COLORS(1, 4), NORMALS(2, 3), TEXCOORDS(3, 2), INDICES(4, 3);
 		
+		private final int position;
 		private final int offset;
 		
-		Usage(int offset){
+		Usage(int position, int offset){
+			this.position = position;
 			this.offset = offset;
+		}
+		
+		public int getShaderPosition(){
+			return position;
 		}
 		
 		public int getOffset(){

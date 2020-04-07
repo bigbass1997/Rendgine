@@ -12,14 +12,21 @@ public class Mesh implements Disposable {
 	
 	public final VertexAttributes attribs;
 	
+	private final int maxVertices;
+	private int verticesPushed;
+	
 	public Mesh(int maxVertices, int maxIndices, boolean hasColors, boolean hasNormals, boolean hasTexCoords){
 		attribs = new VertexAttributes(hasColors, hasNormals, hasTexCoords);
 		
 		vao = new VertexArrayObject(attribs, maxVertices, maxIndices);
+		
+		this.maxVertices = maxVertices;
+		verticesPushed = 0;
 	}
 	
 	public Mesh addVertex(float[] data){
 		vao.addVertex(data);
+		verticesPushed++;
 		return this;
 	}
 	
@@ -30,10 +37,12 @@ public class Mesh implements Disposable {
 	
 	public void clearAllData(){
 		vao.clearAllData();
+		verticesPushed = 0;
 	}
 	
 	public void resetOffsets(){
 		vao.resetOffsets();
+		verticesPushed = 0;
 	}
 	
 	public int getVertexSize(){
@@ -46,6 +55,14 @@ public class Mesh implements Disposable {
 	
 	public int getVertexOffset(VertexAttributes.Usage use){
 		return vao.getVertexOffset(use);
+	}
+	
+	public int getMaxVertices(){
+		return maxVertices;
+	}
+	
+	public int getVerticesPushed(){
+		return verticesPushed;
 	}
 	
 	/**

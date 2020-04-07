@@ -1,11 +1,12 @@
 package com.lukestadem.rendgine;
 
-import com.lukestadem.rendgine.graphics.Color;
 import com.lukestadem.rendgine.graphics.ModernImmediateRenderer2D;
+import com.lukestadem.rendgine.graphics.TextureRenderer;
+import com.lukestadem.rendgine.graphics.opengl.Texture;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 public class Main {
 	
@@ -19,25 +20,33 @@ public class Main {
 		final int height = 500;
 		final Engine engine = new Engine("Test Title", width, height, false, false);
 		
-		final int maxVertices = 300000;
-		final ModernImmediateRenderer2D mir = new ModernImmediateRenderer2D(maxVertices, 100000, true, false, false);
+		final int maxVertices = 100000;
+		final ModernImmediateRenderer2D mir = new ModernImmediateRenderer2D(maxVertices, 20000, true, false, true);
 		
-		final Random rand = new Random();
-		List<Particle> particles = new ArrayList<Particle>();
+		final TextureRenderer tr = new TextureRenderer();
+		final Texture tex = new Texture("E:\\Java\\workspace-lwjgl\\Rendgine\\src\\main\\resources\\test.png");
 		
 		engine.addRenderTask(p -> {
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			mir.clear();
 			
-			particles.forEach(part -> {
-				part.pos.add((rand.nextFloat() * 2) - 1, (rand.nextFloat() * 2) - 1);
-				
-				if(p.camera.isInView(part.pos.x, part.pos.y, 0, 3)){
-					part.render(mir);
-				}
-			});
+			mir.color(1, 1, 0, 0.5f);
+			mir.rect(50, 50, 500, 100);
 			
-			//mir.color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 1);
-			//mir.polygonTriangulated(new float[]{100, 100, 100, 200, 200, 200, 200, 100, 150, 50, 155, 165});
+			mir.render(p.camera.combined);
+			
+			tr.begin(p.camera.combined);
+			tr.texture(tex, 100 - 4 - (tex.width * 0.5f), 100, tex.width * 0.5f, tex.height * 0.5f);
+			tr.texture(tex, 100, 100, tex.width, tex.height);
+			tr.texture(tex, 232, 100, tex.width * 2, tex.height * 2);
+			tr.end();
+			
+			mir.clear();
+			
+			mir.color(0, 1, 0, 0.5f);
+			mir.rect(50, 110, 500, 30);
+			mir.color(0, 1, 0, 0.5f);
+			mir.rect(50, 95, 500, 30);
 			
 			mir.render(p.camera.combined);
 		});
@@ -45,23 +54,14 @@ public class Main {
 		engine.addUpdateTask(p -> {
 			p.runDefaultCameraMovement();
 			
-			final float INTERVAL = 0.0005f;
-			if(time > INTERVAL){
-				final int n = (int) (time / INTERVAL);
-				for(int i = 0; i < n; i++){
-					if(particles.size() < maxVertices / 6){
-						particles.add(new Particle((rand.nextFloat() * width), (rand.nextFloat() * height), 4, 4, Color.toIntPack(rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),1)));
-					}
-				}
-				time = time % INTERVAL;
-			}
-			time += engine.getDelta();
 			
-			System.out.println(particles.size() + ", " + p.getDelta() + ", " + p.getFPS());
+			//System.out.println(p.getDelta() + ", " + p.getFPS());
 		});
 		
 		engine.start();
 		
 		mir.dispose();
+		tr.dispose();
+		tex.dispose();
 	}
 }
