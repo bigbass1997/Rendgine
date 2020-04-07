@@ -18,6 +18,9 @@ repositories {
 			password = ''
 		}
 	}
+	maven {
+		url "https://raw.github.com/SpinyOwl/repo/releases"
+	}
 }
 
 dependencies {
@@ -44,6 +47,7 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
 	
 	implementation 'org.apache.commons:commons-lang3:3.9'
+	implementation 'org.liquidengine:leutil:1.0.0'
 	implementation 'org.joml:joml:1.9.23'
 	implementation 'earcut4j:earcut4j:2.1.2'
 }

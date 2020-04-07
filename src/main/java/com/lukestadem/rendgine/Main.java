@@ -24,31 +24,31 @@ public class Main {
 		final ModernImmediateRenderer2D mir = new ModernImmediateRenderer2D(maxVertices, 20000, true, false, true);
 		
 		final TextureRenderer tr = new TextureRenderer();
-		final Texture tex = new Texture("E:\\Java\\workspace-lwjgl\\Rendgine\\src\\main\\resources\\test.png");
+		final Texture tex = new Texture("test.png");
 		
 		engine.addRenderTask(p -> {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			mir.clear();
+			/*mir.clear();
 			
 			mir.color(1, 1, 0, 0.5f);
 			mir.rect(50, 50, 500, 100);
 			
-			mir.render(p.camera.combined);
+			mir.render(p.camera.combined);*/
 			
 			tr.begin(p.camera.combined);
-			tr.texture(tex, 100 - 4 - (tex.width * 0.5f), 100, tex.width * 0.5f, tex.height * 0.5f);
-			tr.texture(tex, 100, 100, tex.width, tex.height);
-			tr.texture(tex, 232, 100, tex.width * 2, tex.height * 2);
+			tr.texture(tex, 10, 100, tex.width, tex.height);
+			tr.texture(tex, 142, 100, tex.width, tex.height);
+			tr.texture(tex, 274, 100, tex.width, tex.height);
 			tr.end();
 			
-			mir.clear();
+			/*mir.clear();
 			
 			mir.color(0, 1, 0, 0.5f);
 			mir.rect(50, 110, 500, 30);
 			mir.color(0, 1, 0, 0.5f);
 			mir.rect(50, 95, 500, 30);
 			
-			mir.render(p.camera.combined);
+			mir.render(p.camera.combined);*/
 		});
 		
 		engine.addUpdateTask(p -> {
