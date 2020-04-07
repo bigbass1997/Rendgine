@@ -1,4 +1,4 @@
-package com.lukestadem.rendgine.graphics;
+package com.lukestadem.rendgine.graphics.opengl;
 
 import com.lukestadem.rendgine.graphics.opengl.Texture;
 

@@ -1,7 +1,7 @@
 package com.lukestadem.rendgine;
 
 import com.lukestadem.rendgine.graphics.ModernImmediateRenderer2D;
-import com.lukestadem.rendgine.graphics.TextureRegion;
+import com.lukestadem.rendgine.graphics.opengl.TextureRegion;
 import com.lukestadem.rendgine.graphics.TextureRenderer;
 import com.lukestadem.rendgine.graphics.opengl.Texture;
 

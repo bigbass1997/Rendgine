@@ -2,6 +2,7 @@ package com.lukestadem.rendgine.graphics;
 
 import com.lukestadem.rendgine.graphics.opengl.ShaderProgram;
 import com.lukestadem.rendgine.graphics.opengl.Texture;
+import com.lukestadem.rendgine.graphics.opengl.TextureRegion;
 import com.lukestadem.rendgine.graphics.opengl.VertexAttributes;
 import com.lukestadem.rendgine.util.Disposable;
 import com.lukestadem.rendgine.util.Utils;
