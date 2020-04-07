@@ -52,7 +52,7 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 			isOurOwnShader = false;
 		}
 		
-		mesh = new Mesh(20000, 0, true, false, true);
+		mesh = new Mesh(6000, 0, true, false, true);
 		nextVertex = new float[mesh.getVertexSize()];
 		pushes = 0;
 	}
