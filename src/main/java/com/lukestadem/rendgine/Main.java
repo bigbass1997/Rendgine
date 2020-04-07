@@ -1,6 +1,7 @@
 package com.lukestadem.rendgine;
 
 import com.lukestadem.rendgine.graphics.ModernImmediateRenderer2D;
+import com.lukestadem.rendgine.graphics.TextureRegion;
 import com.lukestadem.rendgine.graphics.TextureRenderer;
 import com.lukestadem.rendgine.graphics.opengl.Texture;
 
@@ -25,6 +26,7 @@ public class Main {
 		
 		final TextureRenderer tr = new TextureRenderer();
 		final Texture tex = new Texture("test.png");
+		final TextureRegion reg1 = new TextureRegion(tex, 0.5f, 0.5f, 1f, 1f);
 		
 		engine.addRenderTask(p -> {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -37,8 +39,8 @@ public class Main {
 			
 			tr.begin(p.camera.combined);
 			tr.texture(tex, 10, 100, tex.width, tex.height);
-			tr.texture(tex, 142, 100, tex.width, tex.height);
-			tr.texture(tex, 274, 100, tex.width, tex.height);
+			tr.texture(reg1, 142, 100, reg1.width, reg1.height);
+			tr.texture(reg1, 274, 100, tex.width, tex.height);
 			tr.end();
 			
 			/*mir.clear();

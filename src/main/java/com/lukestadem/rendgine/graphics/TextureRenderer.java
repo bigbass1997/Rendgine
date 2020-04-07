@@ -117,7 +117,15 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 		return this;
 	}
 	
+	public TextureRenderer texture(Texture tex, float x, float y){
+		return texture(tex, x, y, tex.width, tex.height);
+	}
+	
 	public TextureRenderer texture(Texture tex, float x, float y, float width, float height){
+		return texture(tex, x, y, width, height, 0, 0, 1, 1);
+	}
+	
+	public TextureRenderer texture(Texture tex, float x, float y, float width, float height, float u, float v, float u2, float v2){
 		if(lastTexture == null || !lastTexture.equals(tex)){
 			flush();
 			lastTexture = tex;
@@ -125,25 +133,33 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 			flush();
 		}
 		
-		texCoord(0, 0);
+		texCoord(u, v);
 		vertex(x, y, 0);
 		
-		texCoord(0, 1);
+		texCoord(u, v2);
 		vertex(x, y + height, 0);
 		
-		texCoord(1, 1);
+		texCoord(u2, v2);
 		vertex(x + width, y + height, 0);
 		
-		texCoord(1, 1);
+		texCoord(u2, v2);
 		vertex(x + width, y + height, 0);
 		
-		texCoord(1, 0);
+		texCoord(u2, v);
 		vertex(x + width, y, 0);
 		
-		texCoord(0, 0);
+		texCoord(u, v);
 		vertex(x, y, 0);
 		
 		return this;
+	}
+	
+	public TextureRenderer texture(TextureRegion tex, float x, float y){
+		return texture(tex, x, y, tex.width, tex.height);
+	}
+	
+	public TextureRenderer texture(TextureRegion tex, float x, float y, float width, float height){
+		return texture(tex.texture, x, y, width, height, tex.u, tex.v, tex.u2, tex.v2);
 	}
 	
 	private void flush(){
