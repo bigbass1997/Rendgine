@@ -21,6 +21,7 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 	private int pushes;
 	
 	private boolean isOurOwnShader;
+	private boolean isDrawing;
 	
 	private Matrix4f tmpCombined;
 	
@@ -53,13 +54,18 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 			isOurOwnShader = false;
 		}
 		
+		isDrawing = false;
+		
 		mesh = new Mesh(6000, 0, true, false, true);
 		nextVertex = new float[mesh.getVertexSize()];
 		pushes = 0;
 	}
 	
 	public void begin(Matrix4f combined){
-		glDepthMask(false);
+		isDrawing = true;
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		tmpCombined = combined;
 		
@@ -182,6 +188,14 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 		}
 		
 		shaderProgram.unbind();
+		
+		glDisable(GL_BLEND);
+		
+		isDrawing = false;
+	}
+	
+	public boolean isDrawing(){
+		return isDrawing;
 	}
 	
 	@Override

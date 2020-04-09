@@ -1,7 +1,5 @@
 package com.lukestadem.rendgine.graphics.opengl;
 
-import com.lukestadem.rendgine.graphics.opengl.Texture;
-
 public class TextureRegion {
 	
 	public final Texture texture;

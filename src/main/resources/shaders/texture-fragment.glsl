@@ -11,5 +11,5 @@ void main(){
 	if(finalColor.a <= 0.0){ // probably not the best way to check if a color is being supplied or not, but oh well
 		finalColor = vec4(1.0, 1.0, 1.0, 1.0);
 	}
-	fragColor = finalColor * texture2D(textureSampler, outputTexCoord);
+	fragColor = finalColor * texture(textureSampler, outputTexCoord);
 }
