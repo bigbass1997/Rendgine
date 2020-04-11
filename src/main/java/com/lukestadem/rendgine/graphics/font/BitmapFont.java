@@ -1,5 +1,6 @@
 package com.lukestadem.rendgine.graphics.font;
 
+import com.lukestadem.rendgine.graphics.Color;
 import com.lukestadem.rendgine.graphics.TextureRenderer;
 import com.lukestadem.rendgine.graphics.opengl.Texture;
 
@@ -123,6 +124,14 @@ public class BitmapFont {
 		letterSpacing = 0;
 	}
 	
+	public void render(TextureRenderer tr, CharSequence text, float xOrigin, float yOrigin){
+		render(tr, text, xOrigin, yOrigin, 1, 1, 1, 1);
+	}
+	
+	public void render(TextureRenderer tr, CharSequence text, float xOrigin, float yOrigin, Color color){
+		render(tr, text, xOrigin, yOrigin, color.r, color.g, color.b, color.a);
+	}
+	
 	/**
 	 * Draws the series of textures for each character given by the {@code text} parameter. This method
 	 * only works if {@link TextureRenderer#isDrawing()} is true.
@@ -130,13 +139,13 @@ public class BitmapFont {
 	 * @param tr TextureRenderer to use for rendering
 	 * @param text the text to be rendered using this font
 	 */
-	public void render(TextureRenderer tr, CharSequence text, float xOrigin, float yOrigin){
+	public void render(TextureRenderer tr, CharSequence text, float xOrigin, float yOrigin, float r, float g, float b, float a){
 		if(tr.isDrawing()){
 			float curX = xOrigin;
 			for(int i = 0; i < text.length(); i++){
 				final Glyph glyph = glyphMap.get(text.charAt(i));
 				if(glyph != null){
-					tr.texture(tex, curX + glyph.xOffset, yOrigin - glyph.yOffset, glyph.width, glyph.height, glyph.u, glyph.v2, glyph.u2, glyph.v);
+					tr.texture(tex, curX + glyph.xOffset, yOrigin - glyph.yOffset, glyph.width, glyph.height, glyph.u, glyph.v2, glyph.u2, glyph.v, r, g, b, a);
 					curX += glyph.xAdvance + letterSpacing;
 				}
 			}

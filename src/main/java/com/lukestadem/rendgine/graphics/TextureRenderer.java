@@ -14,6 +14,8 @@ import static org.lwjgl.opengl.GL46.*;
 
 public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thing that holds a mesh
 	
+	private final Color NOTHING;
+	
 	private ShaderProgram shaderProgram;
 	
 	private Mesh mesh;
@@ -32,6 +34,8 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 	}
 	
 	public TextureRenderer(ShaderProgram program){
+		NOTHING = new Color(0, 0, 0, 0);
+		
 		if(program == null){
 			try {
 				shaderProgram = new ShaderProgram();
@@ -98,6 +102,10 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 		return this;
 	}
 	
+	public TextureRenderer color(Color color){
+		return color(color.r, color.g, color.b, color.a);
+	}
+	
 	public TextureRenderer color(float r, float g, float b, float a){
 		final int offset = mesh.getVertexOffset(VertexAttributes.Usage.COLORS);
 		nextVertex[offset] = r;
@@ -128,11 +136,31 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 		return texture(tex, x, y, tex.width, tex.height);
 	}
 	
+	public TextureRenderer texture(Texture tex, float x, float y, Color filter){
+		return texture(tex, x, y, filter.r, filter.g, filter.b, filter.a);
+	}
+	
+	public TextureRenderer texture(Texture tex, float x, float y, float r, float g, float b, float a){
+		return texture(tex, x, y, tex.width, tex.height, 0, 0, 1, 1, r, g, b, a);
+	}
+	
 	public TextureRenderer texture(Texture tex, float x, float y, float width, float height){
 		return texture(tex, x, y, width, height, 0, 0, 1, 1);
 	}
 	
+	public TextureRenderer texture(Texture tex, float x, float y, float width, float height, Color filter){
+		return texture(tex, x, y, width, height, 0, 0, 1, 1, filter);
+	}
+	
 	public TextureRenderer texture(Texture tex, float x, float y, float width, float height, float u, float v, float u2, float v2){
+		return texture(tex, x, y, width, height, u, v, u2, v2, NOTHING);
+	}
+	
+	public TextureRenderer texture(Texture tex, float x, float y, float width, float height, float u, float v, float u2, float v2, Color filter){
+		return texture(tex, x, y, width, height, u, v, u2, v2, filter.r, filter.g, filter.b, filter.a);
+	}
+	
+	public TextureRenderer texture(Texture tex, float x, float y, float width, float height, float u, float v, float u2, float v2, float r, float g, float b, float a){
 		if(lastTexture == null || !lastTexture.equals(tex)){
 			flush();
 			lastTexture = tex;
@@ -140,21 +168,27 @@ public class TextureRenderer implements Disposable { // AKA SpriteBatch aka thin
 			flush();
 		}
 		
+		color(r, g, b, a);
 		texCoord(u, v);
 		vertex(x, y, 0);
 		
+		color(r, g, b, a);
 		texCoord(u, v2);
 		vertex(x, y + height, 0);
 		
+		color(r, g, b, a);
 		texCoord(u2, v2);
 		vertex(x + width, y + height, 0);
 		
+		color(r, g, b, a);
 		texCoord(u2, v2);
 		vertex(x + width, y + height, 0);
 		
+		color(r, g, b, a);
 		texCoord(u2, v);
 		vertex(x + width, y, 0);
 		
+		color(r, g, b, a);
 		texCoord(u, v);
 		vertex(x, y, 0);
 		

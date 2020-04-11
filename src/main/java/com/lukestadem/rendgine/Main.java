@@ -1,5 +1,6 @@
 package com.lukestadem.rendgine;
 
+import com.lukestadem.rendgine.graphics.Color;
 import com.lukestadem.rendgine.graphics.ModernImmediateRenderer2D;
 import com.lukestadem.rendgine.graphics.font.BitmapFont;
 import com.lukestadem.rendgine.graphics.font.FontManager;
@@ -34,6 +35,7 @@ public class Main {
 		final BitmapFont font = fm.loadFont("consolas12", "fonts/consolas-12-native.png", "fonts/consolas-12-native.fnt");
 		font.letterSpacing = 1;
 		
+		final Color testColor = new Color(0.5f, 1, 1, 0.7f);
 		engine.addRenderTask(p -> {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			/*mir.clear();
@@ -44,15 +46,15 @@ public class Main {
 			mir.render(p.camera.combined);*/
 			
 			tr.begin(p.camera.combined);
-			tr.texture(tex, 10, 100, tex.width, tex.height);
+			tr.texture(tex, 10, 100, tex.width, tex.height, testColor);
 			tr.texture(reg1, 142, 100, reg1.width, reg1.height);
 			tr.texture(reg1, 274, 100, tex.width, tex.height);
 			
 			font.render(tr, String.format("%.15f", p.getDelta()), 5, height - 20);
 			font.render(tr, String.format("%.2f", p.getFPS()), 5, height - 32);
 			
-			font.render(tr, String.format("%.15f", p.getDelta()), p.camera.position.x - (width * 0.5f) + 5, p.camera.position.y + (height * 0.5f) - 20);
-			font.render(tr, String.format("%.2f", p.getFPS()), p.camera.position.x - (width * 0.5f) + 5, p.camera.position.y + (height * 0.5f) - 32);
+			font.render(tr, String.format("%.15f", p.getDelta()), p.camera.position.x - (width * 0.5f) + 5, p.camera.position.y + (height * 0.5f) - 20, 0.67843137f, 0.49019607f, 1, 1);
+			font.render(tr, String.format("%.2f", p.getFPS()), p.camera.position.x - (width * 0.5f) + 5, p.camera.position.y + (height * 0.5f) - 32, 0.67843137f, 0.49019607f, 1, 1);
 			
 			tr.end();
 			
