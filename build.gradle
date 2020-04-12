@@ -20,18 +20,18 @@ repositories {
 }
 
 dependencies {
-	implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+	api platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
-	implementation "org.lwjgl:lwjgl"
-	implementation "org.lwjgl:lwjgl-assimp"
-	implementation "org.lwjgl:lwjgl-glfw"
-	implementation "org.lwjgl:lwjgl-nanovg"
-	implementation "org.lwjgl:lwjgl-nuklear"
-	implementation "org.lwjgl:lwjgl-openal"
-	implementation "org.lwjgl:lwjgl-opengl"
-	implementation "org.lwjgl:lwjgl-par"
-	implementation "org.lwjgl:lwjgl-stb"
-	implementation "org.lwjgl:lwjgl-vulkan"
+	api "org.lwjgl:lwjgl"
+	api "org.lwjgl:lwjgl-assimp"
+	api "org.lwjgl:lwjgl-glfw"
+	api "org.lwjgl:lwjgl-nanovg"
+	api "org.lwjgl:lwjgl-nuklear"
+	api "org.lwjgl:lwjgl-openal"
+	api "org.lwjgl:lwjgl-opengl"
+	api "org.lwjgl:lwjgl-par"
+	api "org.lwjgl:lwjgl-stb"
+	api "org.lwjgl:lwjgl-vulkan"
 	runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
@@ -42,13 +42,13 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-par::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
 	
-	implementation 'org.apache.commons:commons-lang3:3.9'
-	implementation 'org.liquidengine:leutil:1.0.0'
-	implementation 'org.joml:joml:1.9.23'
-	implementation 'earcut4j:earcut4j:2.1.2'
+	api 'org.apache.commons:commons-lang3:3.9'
+	api 'org.liquidengine:leutil:1.0.0'
+	api 'org.joml:joml:1.9.23'
+	api 'earcut4j:earcut4j:2.1.2'
 }
 
-version = '1.0.0'
+version = '1.0.1'
 group = 'com.lukestadem'
 sourceCompatibility = '1.8'
 
