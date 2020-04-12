@@ -65,10 +65,14 @@ public class ModernImmediateRenderer2D extends ModernImmediateRenderer {
 	}
 	
 	public ModernImmediateRenderer2D circle(float x, float y, float radius){
-		return circle(x, y, radius, Math.max(1, (int)(6 * (float) java.lang.Math.cbrt(radius))));
+		return circle(x, y, radius, Math.max(1, (int)(6 * (float) java.lang.Math.cbrt(radius))), 1, 1, 1, 1);
 	}
 	
-	public ModernImmediateRenderer2D circle(float x, float y, float radius, float segments){
+	public ModernImmediateRenderer2D circle(float x, float y, float radius, float segments, Color color){
+		return circle(x, y, radius, segments, color.r, color.g, color.b, color.a);
+	}
+	
+	public ModernImmediateRenderer2D circle(float x, float y, float radius, float segments, float r, float g, float b, float a){
 		final float dTheta = (float) (2 * Math.PI / segments);
 		final float cos = Math.cos(dTheta);
 		final float sin = Math.sin(dTheta);
@@ -77,18 +81,26 @@ public class ModernImmediateRenderer2D extends ModernImmediateRenderer {
 		float cy = 0;
 		segments--;
 		for(int i = 0; i < segments; i++){
+			color(r, g, b, a);
 			vertex(x, y);
+			color(r, g, b, a);
 			vertex(x + cx, y + cy);
 			
 			final float tmp = cx;
 			cx = (cos * cx) - (sin * cy);
 			cy = (sin * tmp) + (cos * cy);
 			
+			color(r, g, b, a);
 			vertex(x + cx, y + cy);
 		}
 		
+		color(r, g, b, a);
 		vertex(x, y);
+		
+		color(r, g, b, a);
 		vertex(x + cx, y + cy);
+		
+		color(r, g, b, a);
 		vertex(x + radius, y);
 		
 		return this;
