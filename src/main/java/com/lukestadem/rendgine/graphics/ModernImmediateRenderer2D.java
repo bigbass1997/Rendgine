@@ -65,7 +65,15 @@ public class ModernImmediateRenderer2D extends ModernImmediateRenderer {
 	}
 	
 	public ModernImmediateRenderer2D circle(float x, float y, float radius){
-		return circle(x, y, radius, Math.max(1, (int)(6 * (float) java.lang.Math.cbrt(radius))), 1, 1, 1, 1);
+		return circle(x, y, radius, 1, 1, 1, 1);
+	}
+	
+	public ModernImmediateRenderer2D circle(float x, float y, float radius, Color color){
+		return circle(x, y, radius, Math.max(1, (int)(6 * (float) java.lang.Math.cbrt(radius))), color);
+	}
+	
+	public ModernImmediateRenderer2D circle(float x, float y, float radius, float r, float g, float b, float a){
+		return circle(x, y, radius, Math.max(1, (int)(6 * (float) java.lang.Math.cbrt(radius))), r, g, b, a);
 	}
 	
 	public ModernImmediateRenderer2D circle(float x, float y, float radius, float segments, Color color){
@@ -115,20 +123,69 @@ public class ModernImmediateRenderer2D extends ModernImmediateRenderer {
 	 * @return renderer for chaining
 	 */
 	public ModernImmediateRenderer2D polygonTriangulated(float[] vertices){
-		if(vertices.length < 6 || vertices.length % 2 != 0){
+		return polygonTriangulated(vertices, 1, 1, 1, 1);
+	}
+	
+	/**
+	 * Renders a filled polygon. The provided float array should contain (x,y) coordinates in pairs, and should have at
+	 * least 3 vertices (6 floats). The vertices mark the edge line of the polygon, and will be triangulated. Thus,
+	 * this method supports concave polygons.
+	 *
+	 * @param vertices array of vertex pairs
+	 * @param colors array of rgba8888 colors
+	 * @return renderer for chaining
+	 */
+	public ModernImmediateRenderer2D polygonTriangulated(float[] vertices, float[] colors){
+		if(vertices.length < 6 || vertices.length % 2 != 0 || colors.length % 4 != 0){
 			return this;
 		}
 		
 		if(vertices.length == 6){
-			return triangle(vertices[0],vertices[1],vertices[2],vertices[3],vertices[4],vertices[5]);
+			for(int i = 0; i < 3; i++){
+				color(colors[(i * 4)], colors[(i * 4) + 1], colors[(i * 4) + 2], colors[(i * 4) + 3]);
+				vertex(vertices[(i * 2)], vertices[(i * 2) + 1]);
+			}
+			return this;
 		}
 		
 		for(Integer index : Earcut.earcut(vertices)){
-			vertex(vertices[index * 2], vertices[(index * 2) + 1]);
+			color(colors[(index * 4)], colors[(index * 4) + 1], colors[(index * 4) + 2], colors[(index * 4) + 3]);
+			vertex(vertices[(index * 2)], vertices[(index * 2) + 1]);
 		}
 		
 		return this;
 	}
 	
-	
+	/**
+	 * Renders a filled polygon. The provided float array should contain (x,y) coordinates in pairs, and should have at
+	 * least 3 vertices (6 floats). The vertices mark the edge line of the polygon, and will be triangulated. Thus,
+	 * this method supports concave polygons.
+	 *
+	 * @param vertices array of vertex pairs
+	 * @param r red color component
+	 * @param g green color component
+	 * @param b blue color component
+	 * @param a alpha color component
+	 * @return renderer for chaining
+	 */
+	public ModernImmediateRenderer2D polygonTriangulated(float[] vertices, float r, float g, float b, float a){
+		if(vertices.length < 6 || vertices.length % 2 != 0){
+			return this;
+		}
+		
+		if(vertices.length == 6){
+			for(int i = 0; i < 3; i++){
+				color(r, g, b, a);
+				vertex(vertices[(i * 2)], vertices[(i * 2) + 1]);
+			}
+			return this;
+		}
+		
+		for(Integer index : Earcut.earcut(vertices)){
+			color(r, g, b, a);
+			vertex(vertices[(index * 2)], vertices[(index * 2) + 1]);
+		}
+		
+		return this;
+	}
 }
