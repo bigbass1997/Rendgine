@@ -49,7 +49,7 @@ dependencies {
 }
 
 version = '1.0.0'
-group = 'com.lukestadem.rendgine'
+group = 'com.lukestadem'
 sourceCompatibility = '1.8'
 
 task sourceJar(type: Jar){
