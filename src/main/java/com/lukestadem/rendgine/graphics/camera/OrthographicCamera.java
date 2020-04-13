@@ -32,19 +32,19 @@ public class OrthographicCamera extends Camera {
 	@Override
 	public void defaultCameraMovement(Engine engine){
 		boolean camDirty = false;
-		if(Keyboard.isKeyPressed(engine.getWindow().getWindowIndex(), GLFW_KEY_UP)){
+		if(Keyboard.isKeyPressed(engine.window.getWindowIndex(), GLFW_KEY_UP)){
 			translate(0, (float) (200 * engine.getDelta()), 0);
 			camDirty = true;
 		}
-		if(Keyboard.isKeyPressed(engine.getWindow().getWindowIndex(), GLFW_KEY_DOWN)){
+		if(Keyboard.isKeyPressed(engine.window.getWindowIndex(), GLFW_KEY_DOWN)){
 			translate(0, (float) -(200 * engine.getDelta()), 0);
 			camDirty = true;
 		}
-		if(Keyboard.isKeyPressed(engine.getWindow().getWindowIndex(), GLFW_KEY_LEFT)){
+		if(Keyboard.isKeyPressed(engine.window.getWindowIndex(), GLFW_KEY_LEFT)){
 			translate((float) -(200 * engine.getDelta()), 0, 0);
 			camDirty = true;
 		}
-		if(Keyboard.isKeyPressed(engine.getWindow().getWindowIndex(), GLFW_KEY_RIGHT)){
+		if(Keyboard.isKeyPressed(engine.window.getWindowIndex(), GLFW_KEY_RIGHT)){
 			translate((float) (200 * engine.getDelta()), 0, 0);
 			camDirty = true;
 		}

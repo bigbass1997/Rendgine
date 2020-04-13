@@ -8,20 +8,17 @@ import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 public class Engine {
 	
-	private final Window window;
-	
-	private final List<Consumer<Engine>> updateTasks;
-	private final List<Consumer<Engine>> renderTasks;
+	private final List<EngineTask> tasks;
 	
 	private double delta;
 	
-	public Camera camera;
+	public final Window window;
+	public final Camera camera;
 	
 	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable){
 		this(title, width, height, vSync, isResizable, new OrthographicCamera(width, height, (width / 2), (height / 2), 0));
@@ -30,8 +27,7 @@ public class Engine {
 	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable, Camera camera){
 		window = new Window(title, width, height, vSync, isResizable);
 		
-		updateTasks = new ArrayList<Consumer<Engine>>();
-		renderTasks = new ArrayList<Consumer<Engine>>();
+		tasks = new ArrayList<EngineTask>();
 		
 		this.camera = camera;
 		
@@ -55,23 +51,11 @@ public class Engine {
 			delta = getTime() - lastFrameStartTime;
 			lastFrameStartTime = getTime();
 			
-			update();
-			render();
+			window.update();
+			for(EngineTask task : tasks){
+				task.loop(this);
+			}
 		}
-	}
-	
-	protected void update(){
-		window.update();
-		
-		updateTasks.forEach(task -> {
-			task.accept(this);
-		});
-	}
-	
-	protected void render(){
-		renderTasks.forEach(task -> {
-			task.accept(this);
-		});
 	}
 	
 	private double getTime(){
@@ -82,16 +66,33 @@ public class Engine {
 		return delta;
 	}
 	
+	/**
+	 * Less accurate version than {@link #getDelta()}.
+	 * 
+	 * @return delta time as a float
+	 */
+	public float getDeltaF(){
+		return (float) getDelta();
+	}
+	
 	public double getFPS(){
 		return 1d / getDelta();
 	}
 	
-	public void addUpdateTask(Consumer<Engine> task){
-		updateTasks.add(task);
+	public void addTask(EngineTask task){
+		if(task == null){
+			return;
+		}
+		
+		tasks.add(task);
 	}
 	
-	public void addRenderTask(Consumer<Engine> task){
-		renderTasks.add(task);
+	public void removeTask(EngineTask task){
+		if(task == null){
+			return;
+		}
+		
+		tasks.remove(task);
 	}
 	
 	public void runDefaultCameraMovement(){
@@ -100,9 +101,5 @@ public class Engine {
 	
 	public void addKeyCallback(GLFWKeyCallbackI callback){
 		KeyCallbackBus.getGlobalBus().add(callback);
-	}
-	
-	public Window getWindow(){
-		return window;
 	}
 }
