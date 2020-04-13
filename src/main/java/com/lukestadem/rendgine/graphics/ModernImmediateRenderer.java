@@ -168,6 +168,10 @@ public class ModernImmediateRenderer implements Disposable {
 		resetColorFlag = flag;
 	}
 	
+	public Mesh getMesh(){
+		return mesh;
+	}
+	
 	@Override
 	public void dispose(){
 		mesh.dispose();
