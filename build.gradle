@@ -48,7 +48,7 @@ dependencies {
 	api 'earcut4j:earcut4j:2.1.2'
 }
 
-version = '1.0.5'
+version = '1.0.6'
 group = 'com.lukestadem'
 sourceCompatibility = '1.8'
 
@@ -62,8 +62,14 @@ publishing {
 			name = 'BassNet'
 			url = 'http://bigbass1997.com:3510/repository/internal/'
 			credentials {
-				username = ''
-				password = ''
+				def credsFile = rootProject.file("publishing.creds")
+				def creds = new Properties()
+				if (credsFile.exists()){
+					creds.load(new FileInputStream(credsFile))
+				}
+				
+				username = creds['username'] ?: ''
+				password = creds['password'] ?: ''
 			}
 		}
 	}
