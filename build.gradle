@@ -48,7 +48,7 @@ dependencies {
 	api 'earcut4j:earcut4j:2.1.2'
 }
 
-version = '1.0.4'
+version = '1.0.5'
 group = 'com.lukestadem'
 sourceCompatibility = '1.8'
 

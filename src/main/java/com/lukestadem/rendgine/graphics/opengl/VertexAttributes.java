@@ -1,7 +1,5 @@
 package com.lukestadem.rendgine.graphics.opengl;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 public class VertexAttributes {
 	
 	public enum Usage {
@@ -24,7 +22,10 @@ public class VertexAttributes {
 		}
 	}
 	
-	private Usage[] usages;
+	private boolean hasPositions;
+	private boolean hasColors;
+	private boolean hasNormals;
+	private boolean hasTexCoords;
 	
 	private int vertexSize;
 	
@@ -33,54 +34,94 @@ public class VertexAttributes {
 	}
 	
 	public VertexAttributes(boolean hasPositions, boolean hasColors, boolean hasNormals, boolean hasTexCoords){
-		usages = new Usage[0];
-		if(hasPositions) usages = ArrayUtils.add(usages, Usage.POSITIONS);
-		if(hasColors) usages = ArrayUtils.add(usages, Usage.COLORS);
-		if(hasNormals) usages = ArrayUtils.add(usages, Usage.NORMALS);
-		if(hasTexCoords) usages = ArrayUtils.add(usages, Usage.TEXCOORDS);
-		
 		vertexSize = 0;
-		for(Usage usage : usages){
-			vertexSize += usage.offset;
+		if(hasPositions){
+			this.hasPositions = true;
+			vertexSize += Usage.POSITIONS.getOffset();
 		}
-	}
-	
-	public VertexAttributes(Usage... usages){
-		this.usages = usages;
+		if(hasColors){
+			this.hasColors = true;
+			vertexSize += Usage.COLORS.getOffset();
+		}
+		if(hasNormals){
+			this.hasNormals = true;
+			vertexSize += Usage.NORMALS.getOffset();
+		}
+		if(hasTexCoords){
+			this.hasTexCoords = true;
+			vertexSize += Usage.TEXCOORDS.getOffset();
+		}
 	}
 	
 	public int getOffset(Usage usage){
-		return getOffset(usage, -1);
+		return getOffset(usage, 0);
 	}
+	
 	public int getOffset(Usage usage, int defaultNotFound){
 		int offset = 0;
-		for(Usage use : usages){
-			if(use.equals(usage)){
+		if(hasPositions){
+			if(usage == Usage.POSITIONS){
 				return offset;
 			}
-			offset += use.offset;
+			offset += usage.getOffset();
 		}
-		
-		if(ArrayUtils.contains(usages, usage)){
-			return usage.getOffset();
+		if(hasColors){
+			if(usage == Usage.COLORS){
+				return offset;
+			}
+			offset += usage.getOffset();
+		}
+		if(hasNormals){
+			if(usage == Usage.NORMALS){
+				return offset;
+			}
+			offset += usage.getOffset();
+		}
+		if(hasTexCoords){
+			if(usage == Usage.TEXCOORDS){
+				return offset;
+			}
 		}
 		
 		return defaultNotFound;
 	}
 	
 	public boolean hasUsage(Usage use){
-		return ArrayUtils.contains(usages, use);
+		if(use == Usage.POSITIONS && hasPositions){
+			return true;
+		}
+		if(use == Usage.COLORS && hasColors){
+			return true;
+		}
+		if(use == Usage.NORMALS && hasNormals){
+			return true;
+		}
+		if(use == Usage.TEXCOORDS && hasTexCoords){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public int getVertexSize(){
 		return vertexSize;
 	}
 	
-	public Usage[] getUsages(){
-		return usages;
-	}
-	
 	public int length(){
-		return usages.length;
+		int len = 0;
+		if(hasPositions){
+			len++;
+		}
+		if(hasColors){
+			len++;
+		}
+		if(hasNormals){
+			len++;
+		}
+		if(hasTexCoords){
+			len++;
+		}
+		
+		return len;
 	}
 }
