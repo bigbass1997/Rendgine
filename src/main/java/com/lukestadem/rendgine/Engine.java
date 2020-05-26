@@ -21,11 +21,15 @@ public class Engine {
 	public final Camera camera;
 	
 	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable){
-		this(title, width, height, vSync, isResizable, new OrthographicCamera(width, height, (width / 2), (height / 2), 0));
+		this(title, width, height, vSync, isResizable, 0);
 	}
 	
-	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable, Camera camera){
-		window = new Window(title, width, height, vSync, isResizable);
+	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable, final int sampleMsaa){
+		this(title, width, height, vSync, isResizable, new OrthographicCamera(width, height, (width / 2), (height / 2), 0), sampleMsaa);
+	}
+	
+	public Engine(final String title, final int width, final int height, final boolean vSync, final boolean isResizable, Camera camera, final int sampleMsaa){
+		window = new Window(title, width, height, vSync, isResizable, sampleMsaa);
 		
 		tasks = new ArrayList<EngineTask>();
 		

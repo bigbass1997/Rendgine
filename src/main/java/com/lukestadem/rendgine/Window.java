@@ -18,6 +18,10 @@ public class Window {
 	private boolean hasResized;
 	
 	public Window(String title, final int width, final int height, final boolean vSync, final boolean isResizable){
+		this(title, width, height, vSync, isResizable, 0);
+	}
+	
+	public Window(String title, final int width, final int height, final boolean vSync, final boolean isResizable, int samplesMsaa){
 		this.width = width;
 		this.height = height;
 		
@@ -25,6 +29,10 @@ public class Window {
 		
 		if(title == null){
 			title = "";
+		}
+		
+		if(samplesMsaa < 0){
+			samplesMsaa = 0;
 		}
 		
 		GLFWErrorCallback.createPrint(System.err).set();
@@ -39,6 +47,7 @@ public class Window {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_SAMPLES, samplesMsaa);
 		
 		windowIndex = glfwCreateWindow(width, height, title, NULL, NULL);
 		if(windowIndex == NULL){
