@@ -4,6 +4,7 @@ import com.lukestadem.rendgine.util.Disposable;
 import org.liquidengine.leutil.io.IOUtil;
 import org.lwjgl.stb.STBImage;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -11,16 +12,21 @@ import static org.lwjgl.opengl.GL46.*;
 
 public class Texture implements Disposable {
 	
-	public final int id;
-	public final int width;
-	public final int height;
-	public final int channels;
+	/** OpenGL id for this texture. <b>Do not reassign!</b> */
+	public int id;
+	/** Width of the texture. <b>Do not reassign!</b> */
+	public int width;
+	/** Height of the texture. <b>Do not reassign!</b> */
+	public int height;
+	/** Texture channels. <b>Do not reassign!</b> */
+	public int channels;
 	
+	/**
+	 * Creates a new texture from a file located at this path. Useful for loading assets from the classpath.
+	 * 
+	 * @param filename name/path of the file
+	 */
 	public Texture(String filename){
-		final int[] tmpWidth = new int[1];
-		final int[] tmpHeight = new int[1];
-		final int[] tmpChannels = new int[1];
-		
 		ByteBuffer fileBuf = null;
 		try {
 			fileBuf = IOUtil.resourceToByteBuffer(filename);
@@ -28,11 +34,35 @@ public class Texture implements Disposable {
 			e.printStackTrace();
 		}
 		
+		init(fileBuf);
+	}
+	
+	/**
+	 * Creates a new texture from a file located at the given file. This may not work for files inside the classpath.
+	 * 
+	 * @param file name/path of the file
+	 */
+	public Texture(File file){
+		ByteBuffer fileBuf = null;
+		try {
+			fileBuf = IOUtil.resourceToByteBuffer(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		init(fileBuf);
+	}
+	
+	private void init(ByteBuffer fileBuf){
+		final int[] tmpWidth = new int[1];
+		final int[] tmpHeight = new int[1];
+		final int[] tmpChannels = new int[1];
+		
 		STBImage.stbi_set_flip_vertically_on_load(true);
 		final ByteBuffer imageBuf = STBImage.stbi_load_from_memory(fileBuf, tmpWidth, tmpHeight, tmpChannels, 4);
 		
 		if(imageBuf == null){
-			throw new RuntimeException("Image file \"" + filename + "\" could not be loaded: " + STBImage.stbi_failure_reason());
+			throw new RuntimeException("Image file could not be loaded: " + STBImage.stbi_failure_reason());
 		}
 		
 		width = tmpWidth[0];
