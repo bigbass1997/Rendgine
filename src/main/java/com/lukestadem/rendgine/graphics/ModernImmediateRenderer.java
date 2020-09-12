@@ -112,7 +112,7 @@ public class ModernImmediateRenderer implements Disposable {
 		mesh.addVertex(nextVertex);
 		
 		if(!resetColorFlag && mesh.hasUsage(Usage.COLORS)){
-			test();
+			fillExceptColor();
 		} else {
 			Arrays.fill(nextVertex, 0);
 		}
@@ -120,17 +120,14 @@ public class ModernImmediateRenderer implements Disposable {
 		return this;
 	}
 	
-	private void test(){
+	private void fillExceptColor(){
 		final int offset = mesh.getVertexOffset(Usage.COLORS);
-		final float r = nextVertex[offset];
-		final float g = nextVertex[offset+1];
-		final float b = nextVertex[offset+2];
-		final float a = nextVertex[offset+3];
-		Arrays.fill(nextVertex, 0);
-		nextVertex[offset] = r;
-		nextVertex[offset+1] = g;
-		nextVertex[offset+2] = b;
-		nextVertex[offset+3] = a;
+		if(offset > 0){
+			Arrays.fill(nextVertex, 0, offset, 0);
+		}
+		if(offset + 4 < nextVertex.length - 1){
+			Arrays.fill(nextVertex, offset + 4, nextVertex.length, 0);
+		}
 	}
 	
 	public ModernImmediateRenderer indices(int[] indices){

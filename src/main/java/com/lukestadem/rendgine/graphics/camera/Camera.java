@@ -20,8 +20,8 @@ public abstract class Camera {
 	public final Matrix4f view;
 	public final Matrix4f combined;
 	
-	protected float near;
-	protected float far;
+	public float near;
+	public float far;
 	
 	public Camera(){
 		this(0, 0, 0);

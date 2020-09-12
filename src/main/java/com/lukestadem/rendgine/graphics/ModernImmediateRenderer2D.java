@@ -9,7 +9,7 @@ import org.joml.Vector2f;
  */
 public class ModernImmediateRenderer2D extends ModernImmediateRenderer {
 	
-	private Vector2f tmpVec;
+	protected Vector2f tmpVec;
 	
 	public ModernImmediateRenderer2D(boolean hasColors, boolean hasNormals, boolean hasTexCoords){
 		super(hasColors, hasNormals, hasTexCoords);

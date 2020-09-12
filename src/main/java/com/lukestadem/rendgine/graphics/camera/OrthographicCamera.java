@@ -2,7 +2,6 @@ package com.lukestadem.rendgine.graphics.camera;
 
 import com.lukestadem.rendgine.Engine;
 import com.lukestadem.rendgine.util.Keyboard;
-import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
