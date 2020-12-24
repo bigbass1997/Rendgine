@@ -3,8 +3,8 @@ package com.lukestadem.rendgine.graphics.font;
 import com.lukestadem.rendgine.graphics.Color;
 import com.lukestadem.rendgine.graphics.TextureRenderer;
 import com.lukestadem.rendgine.graphics.opengl.Texture;
+import org.joml.Math;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -152,8 +152,34 @@ public class BitmapFont {
 		}
 	}
 	
+	public float getTextWidth(String text){
+		float len = 0;
+		for(int i = 0; i < text.length(); i++){
+			final Glyph glyph = glyphMap.get(text.charAt(i));
+			if(glyph != null){
+				len += glyph.xAdvance + letterSpacing;
+			}
+		}
+		return len;
+	}
+	
+	public float getMaxHeight(String text){
+		float height = 0;
+		for(int i = 0; i < text.length(); i++){
+			final Glyph glyph = glyphMap.get(text.charAt(i));
+			if(glyph != null){
+				height = Math.max(height, glyph.height);
+			}
+		}
+		return height;
+	}
+	
 	public Texture getTexture(){
 		return tex;
+	}
+	
+	public Map<Character, Glyph> getGlyphMap(){
+		return glyphMap;
 	}
 	
 	public String getName(){

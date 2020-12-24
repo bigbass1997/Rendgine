@@ -9,10 +9,18 @@ import java.util.Map;
 
 public class FontManager {
 	
-	private Map<String, BitmapFont> fontCache;
+	private static Map<String, BitmapFont> fontCache;
 	
-	public FontManager(){
+	private FontManager(){
 		fontCache = new HashMap<String, BitmapFont>();
+	}
+	
+	private static class LazyHolder {
+		private static final FontManager INSTANCE = new FontManager();
+	}
+	
+	public static FontManager getInstance(){
+		return LazyHolder.INSTANCE;
 	}
 	
 	public BitmapFont loadFont(String name, String pngPath, String fntPath){

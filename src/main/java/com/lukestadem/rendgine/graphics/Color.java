@@ -17,6 +17,14 @@ public class Color {
 		clamp();
 	}
 	
+	public Color(byte r, byte g, byte b, byte a){
+		this.r = r / 255f;
+		this.g = g / 255f;
+		this.b = b / 255f;
+		this.a = a / 255f;
+		clamp();
+	}
+	
 	public Color clamp(){
 		r = r < 0 ? 0 : (r > 1 ? 1 : r);
 		g = g < 0 ? 0 : (g > 1 ? 1 : g);
@@ -25,7 +33,7 @@ public class Color {
 		return this;
 	}
 	
-	public float toIntPack(){
+	public int toIntPack(){
 		return Color.toIntPack(r, g, b, a);
 	}
 	
@@ -73,5 +81,9 @@ public class Color {
 	
 	public static int toIntPack(float r, float g, float b, float a){
 		return ((int)(255 * r) << 24) | ((int)(255 * g) << 16) | ((int)(255 * b) << 8) | ((int)(255 * a));
+	}
+	
+	public static int toIntPack(byte r, byte g, byte b, byte a){
+		return r | g | b | a;
 	}
 }

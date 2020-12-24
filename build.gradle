@@ -48,7 +48,7 @@ dependencies {
 	api 'earcut4j:earcut4j:2.1.2'
 }
 
-version = '1.1.11'
+version = '1.2-SNAPSHOT'
 group = 'com.lukestadem'
 sourceCompatibility = '1.8'
 
@@ -60,7 +60,7 @@ publishing {
 	repositories {
 		maven {
 			name = 'BassNet'
-			url = 'http://bigbass1997.com:3510/repository/internal/'
+			url = 'http://bigbass1997.com:3510/repository/snapshots/'
 			credentials {
 				def credsFile = rootProject.file("publishing.creds")
 				def creds = new Properties()
